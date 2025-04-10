@@ -3,11 +3,12 @@ class MovieTicketBooking
   # constructor
   def initialize
     puts 'Welcome to Movie Ticket Booking'
+    @arr_of_booking_details = []
   end
   # end of constructor
 
   LIST_OF_MOVIES = { '1' => 'Culture', '2' => 'Venom' }.freeze
-  @@arr_of_booking_details = []
+
   @@seat_time = { '1' => { '1' => [%w[A A A], %w[B B B], %w[B B B]],
                            '2' => [%w[B B A], %w[A B A], %w[B B A]],
                            '3' => [%w[B A A], %w[A A A], %w[A A A]] },
@@ -112,7 +113,8 @@ class MovieTicketBooking
       if @@seat_time[movie][slot][row - 1][col - 1] == 'A'
         @@seat_time[movie][slot][row - 1][col - 1] = 'B'
         puts "Booking Confirmed for #{user_name} seat number #{row}#{col}"
-        @@arr_of_booking_details.push({ mobile: user_name, movie: LIST_OF_MOVIES[movie], slot: slot, seatno: "#{row}#{col}" }) 
+        puts "Nil class" if @arr_of_booking_details.nil?
+        @arr_of_booking_details.push({ mobile: user_name, movie: LIST_OF_MOVIES[movie], slot: slot, seatno: "#{row}#{col}" }) 
         break
 
       end
@@ -127,9 +129,9 @@ class MovieTicketBooking
   def booking_info
     puts 'Booking Details\n\n'
     counter = 1
-    return puts 'No Booking Details Found' if @@arr_of_booking_details.empty?
+    return puts 'No Booking Details Found' if @arr_of_booking_details.empty?
 
-    @@arr_of_booking_details.each do |i|
+    @arr_of_booking_details.each do |i|
       puts "Booking ID #{counter} - \n"
       counter += 1
       i.each do |key, value|
@@ -151,8 +153,8 @@ class MovieTicketBooking
     loop do
       puts 'Enter the Booking ID you want to cancel 1,2,..'
       book_id = gets.chomp.to_i
-      if book_id.positive? && book_id <= @@arr_of_booking_details.length
-        cancel_seat = @@arr_of_booking_details.delete_at(book_id - 1)
+      if book_id.positive? && book_id <= @arr_of_booking_details.length
+        cancel_seat = @arr_of_booking_details.delete_at(book_id - 1)
         movie_key = LIST_OF_MOVIES.key(cancel_seat[:movie]) # Get the movie key (e.g., "1" or "2")
         seatno = cancel_seat[:seatno]
         row = seatno[0].to_i
