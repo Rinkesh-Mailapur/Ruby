@@ -87,9 +87,9 @@ class MovieTicketBooking
     loop do
       puts "Book Ticket for movie #{movie} : Press 1 to continue Press 0 to Exit"
       response = gets.chomp.to_i
-      confirm_booking(movie, slot) if response == 1
-      break
+      break if response.zero?
 
+      confirm_booking(movie, slot)
     end
     # loop do
   end
@@ -127,7 +127,7 @@ class MovieTicketBooking
 
   # method booking_info
   def booking_info
-    puts 'Booking Details\n\n'
+    puts "Booking Details\n\n"
     counter = 1
     return puts 'No Booking Details Found' if @arr_of_booking_details.empty?
 
